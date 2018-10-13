@@ -1,6 +1,7 @@
 # todo-vue
 
 > A Vue.js project
+>> this project is based on the tutorial https://www.youtube.com/watch?v=A5S23KS_-bU&index=1&list=PLEhEHUEU3x5q-xB1On4CsLPts0-rZ9oos
 
 ## Build Setup
 
