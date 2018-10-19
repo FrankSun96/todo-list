@@ -53,7 +53,7 @@
         },
         methods: {
             removeTodo(index) {
-              eventBus.$emit('removedTodo', index);
+              this.$store.dispatch('deleteTodo', index)
             },
             editTodo() {
               this.beforeEditCache = this.title;
@@ -64,14 +64,10 @@
                 this.title = this.beforeEditCache;
               }
               this.editing = false;
-              eventBus.$emit('finishedEdit', {
-                'index': this.index,
-                'todo': {
-                  'id': this.id,
-                  'title': this.title,
-                  'completed': this.completed,
-                  'editing': this.editing
-                }
+              this.$store.dispatch('updateTodo', {
+                'id': this.id,
+                'title': this.title,
+                'index': this.index
               })
             },
             cancelEdit() {
@@ -83,15 +79,12 @@
             },
             handlePluralize() {
               this.title = this.title + 's';
-              eventBus.$emit('finishedEdit', {
-                'index': this.index,
-                'todo': {
-                  'id': this.id,
-                  'title': this.title,
-                  'completed': this.completed,
-                  'editing': this.editing
-                }
-              })
+              this.$store.state.todos.splice(this.index, 1, {
+                'id': this.id,
+                'title': this.title,
+                'completed': this.completed,
+                'editing': this.editing
+              });
             }
         },
         directives: {
