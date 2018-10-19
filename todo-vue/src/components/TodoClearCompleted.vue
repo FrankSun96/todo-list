@@ -5,15 +5,14 @@
 <script>
     export default {
         name: "TodoClearCompleted",
-        props: {
-          showClearCompletedbButton: {
-           type: Boolean,
-           required: true
+        computed: {
+          showClearCompletedbButton() {
+            return this.$store.getters.showClearCompletedbButton
           }
         },
       methods: {
         clearCompleted() {
-          eventBus.$emit('clearCompletedTodos')
+          this.$store.dispatch('clearCompleted')
         }
       }
     }
