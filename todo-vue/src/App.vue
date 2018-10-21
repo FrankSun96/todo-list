@@ -1,7 +1,7 @@
 <template>
   <div id="app" class="container">
-    <img class="logo" src="./assets/logo.png">
-    <TodoList></TodoList>
+    <img src="./assets/logo.png" class="logo">
+    <todo-list></todo-list>
   </div>
 </template>
 
@@ -11,25 +11,23 @@ import TodoList from './components/TodoList'
 export default {
   name: 'App',
   components: {
-    TodoList
+    TodoList,
   }
 }
 </script>
 
 <style>
-  
+
 * {
-  -webkit-box-sizing: border-box;
-  -moz-box-sizing: border-box;
   box-sizing: border-box;
-}  
+}
 
 .container {
   max-width: 600px;
   margin: 0 auto;
 }
-  
-  
+
+
 #app {
   font-family: 'Avenir', Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
@@ -39,7 +37,7 @@ export default {
   font-size: 24px;
 }
 
-.logo{
+.logo {
   display: block;
   margin: 20px auto;
   height: 75px;
