@@ -2,7 +2,7 @@ import firebase from 'firebase'
 import 'firebase/firestore'
 
 const config = {
-  apiKey: "AIzaSyCHbLtPD3Mxb6q0xlfEqCEyOc8oppUqzOc",
+  apiKey: "",
   authDomain: "todos-ddef6.firebaseapp.com",
   databaseURL: "https://todos-ddef6.firebaseio.com",
   projectId: "todos-ddef6",
