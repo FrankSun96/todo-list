@@ -1,25 +1,12 @@
 import Vue from 'vue'
 import Vuex from  'vuex'
-
+import db from '../firebase'
 Vue.use(Vuex)
 
 export const store = new Vuex.Store({
   state: {
     filter: 'all',
-    todos: [
-      {
-        'id': 1,
-        'title': 'Finish Vue Screencast',
-        'completed': false,
-        'editing': false,
-      },
-      {
-        'id': 2,
-        'title': 'Take over world',
-        'completed': false,
-        'editing': false,
-      },
-    ]
+    todos: []
   },
   getters: {
     remaining(state) {
@@ -69,11 +56,46 @@ export const store = new Vuex.Store({
         'id': todo.id,
         'title': todo.title,
       })
+    },
+    retrieveTodos(state, todos){
+      state.todos = todos
     }
   },
   actions: {
+    retrieveTodos(context){
+      db.collection('todos').get()
+        .then(querySnapshot => {
+          let tempTodos = []
+          querySnapshot.forEach(doc => {
+            const data = {
+              id: doc.id,
+              title: doc.data().title,
+              completed: doc.data().completed,
+              timestamp: doc.data().timestamp
+            }
+            tempTodos.push(data)
+          })
+
+          const tempTodosSorted = tempTodos.sort((a, b) => {
+            return a.timestamp.seconds - b.timestamp.seconds
+          })
+
+          context.commit('retrieveTodos', tempTodosSorted)
+        })
+    },
     addTodo(context, todo) {
-      context.commit('addTodo', todo)
+      db.collection('todos').add({
+        title: todo.title,
+        completed: false,
+        timestamp: new Date()
+      })
+        .then(docRef => {
+          context.commit('addTodo', {
+            id: docRef.id,
+            title: todo.title,
+            completed: false
+          })
+        })
     },
     clearCompleted(context) {
       context.commit('clearCompleted')
@@ -85,10 +107,22 @@ export const store = new Vuex.Store({
       context.commit('checkAll', checked)
     },
     deleteTodo(context, index){
-      context.commit('deleteTodo', index)
+      db.collection('todos').doc(id).delete()
+        .then(() => {
+          context.commit('deleteTodo', index)
+        })
+
     },
     updateTodo(context, todo) {
-      context.commit('updateTodo', todo)
+      db.collection('todos').doc(todo.id).set({
+        id: todo.id,
+        title: todo.title,
+        completed: false,
+        timestamp: new Date()
+      })
+        .then(() => {
+          context.commit('updateTodo', todo)
+        })
     }
   }
 });
